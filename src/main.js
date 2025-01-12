@@ -28,6 +28,15 @@ function update_text() {
     do_update = true;
 }
 
+function downloadImage() {
+    var canvas = document.getElementById('glcanvas');
+    var link = document.createElement('a');
+
+    link.href = canvas.toDataURL('image/png');
+    link.download = 'canvas_image.png';
+    link.click();
+}
+
 function glMain() {
 
     // Initializing input widgets
@@ -74,6 +83,10 @@ That makes calamity of so long life.`
     textarea.addEventListener('input', update_text, false);
     textarea.onchange = update_text;
 
+    var download_button = document.getElementById("download_button");
+    download_button.addEventListener('click', downloadImage);
+
+
     var all_fonts = {
         "roboto"        : roboto_font,
         "roboto_bold"   : roboto_bold_font,        
@@ -88,7 +101,7 @@ That makes calamity of so long life.`
     // GL stuff
     
     var canvas = document.getElementById('glcanvas');
-    var gl = canvas.getContext('experimental-webgl', { premultipliedAlpha: false,  alpha: false  } );
+    var gl = canvas.getContext('experimental-webgl', { premultipliedAlpha: false,  alpha: false, preserveDrawingBuffer: true  } );
     
     // Loading SDF font images. Resulting textures should NOT be mipmapped!
     
